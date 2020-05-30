@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 27, 2020 at 07:17 AM
+-- Generation Time: May 29, 2020 at 08:24 PM
 -- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.1
+-- PHP Version: 7.4.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `leave`
+-- Database: `leaves`
 --
 
 -- --------------------------------------------------------
@@ -39,9 +39,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`admin_ID`, `user_name`, `password`) VALUES
-('cse180001021@iiti.ac.in', 'Jagruthi', 'patibandla'),
-('cse180001052@iiti.ac.in', 'Shravya', 'ramasahayam'),
-('abc', 'namam', 'xyz');
+('admin', 'Priya', 'admin123');
 
 -- --------------------------------------------------------
 
@@ -69,8 +67,7 @@ INSERT INTO `leaves` (`date`, `user_ID`, `type`, `status`, `remarks`, `reason`) 
 ('2020-05-29', 'cse180001052@iiti.ac.in', 'Medical', 'Approved', 'ok', 'Vomitings'),
 ('2020-06-02', 'cse180001052@iiti.ac.in', 'Travel', 'Approved', 'Acceptable', 'Vacation'),
 ('2020-06-06', 'cse180001052@iiti.ac.in', 'casual', 'Disapproved', 'unclear', 'Other work'),
-('2020-06-06', 'cse180001021@iiti.ac.in', 'Emergency', 'Approved', 'Okay', 'Family'),
-('2020-05-29', 'cse180001021@iiti.ac.in', 'Medical', 'waiting for approval', '', 'Stomacache');
+('2020-06-06', 'cse180001021@iiti.ac.in', 'Emergency', 'Approved', 'Okay', 'Family');
 
 -- --------------------------------------------------------
 
@@ -90,9 +87,10 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`user_ID`, `user_name`, `password`) VALUES
 ('cse180001021@iiti.ac.in', 'Jagruthi', 'patibandla'),
-('cse180001052@iiti.ac.in', 'Shravya', 'potti'),
-('alpha', 'alphaname', 'qwerty'),
-('cse180001013', 'Sneha', 'wow');
+('cse180001052@iiti.ac.in', 'Shravya', 'ramasahayam'),
+('cse180001013', 'Sneha', 'wow'),
+('cse180001041@iiti.ac.in', 'pulakitha', 'rapolu'),
+('cse180001016@iiti.ac.in', 'hanupriya', 'chitra');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

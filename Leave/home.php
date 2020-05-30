@@ -12,7 +12,10 @@
     function closepop() {
          document.getElementById("pop").style.display = "none";
      }
-
+     function closeapprove()
+     {
+         document.getElementById("pop").style.display = "none";
+     }
      function submitform()
   {
     document.filterform.submit();
@@ -22,15 +25,18 @@
     document.filterform1.submit();
   }
 </script> 
-<body ><center>
- <h1>Leave Management</h1>
+<body >
+<center>
+  
+<img src="title.png" width=100%>
+ 
 
 <?php
 
 $host="localhost";
 $dbusername="root";
 $dbpassword="";
-$dbname="leave";
+$dbname="leaves";
 $dbconn =mysqli_connect($host,$dbusername,$dbpassword,$dbname);
 session_start();
 
@@ -103,16 +109,17 @@ if($dummy==0)
 else if(isset($_SESSION["username"]) )
 {
   $username=$_SESSION['username']; ?> 
-  <c><form action="?" method="POST">
+  <form action="?" method="POST">
   <table>
-  <tr>
-          <td><button type="submit" name="my_leaves" >My Leaves</button></td></form>
+  <tr >
+          <td class="usernavtd" ><button type="submit" name="my_leaves" class="usernavigation" >My Leaves</button></td>
+        </form>
           <form action="?" method="POST">   
-          <td><button type="submit" name="Apply" >Apply for leave</button></td>
-          <td> <button type="submit" name="logout"> Logout</button></td>
+          <td class="usernavtd"><button type="submit" name="Apply" class="usernavigation">Apply for leave</button></td>
+          <td class="usernavtd"> <button type="submit" name="logout" class="usernavigation"> Logout</button></td>
   </tr>
 </form>
-</table></c>
+</table>
 <?php
 if(isset($_POST['Apply']))
 {
@@ -124,7 +131,7 @@ if(isset($_POST['Apply']))
    <td><input required type="date" name="applydate" data-date-inline-picker min="<?php echo date('Y-m-d');?>" required></td></tr>
    <tr><td >Type</td><td> <input type="text" name="applytype" required ></td></tr>
   <tr> <td >Reason</td><td><input type="text" name="applyreason" required> </td></tr>
-  <tr> <td><button type="submit" name="applyform" >Apply</button></td> </tr>
+  <tr> <td><button type="submit" name="applyform" class="formsubmit" >Apply</button></td> </tr>
   </form> </table>
    <?php                                     
 }
@@ -168,11 +175,12 @@ else
   {    
   $result=mysqli_query($dbconn,"SELECT * FROM leaves WHERE user_ID = '".$username."'");
   } 
-  echo "<br><br><center><table><tr><td><u>DATE</u></td><td><u>TYPE</u></td><td><u>STATUS</u></td><td><u>REMARKS</u></td><td><u>REASON</u></td></tr>";
+  echo "<br><br><center><table ><tr><th class=\leavestable\"><u>DATE</u></th><th class=\leavestable\"><u>";
+  echo "TYPE</u></th><th class=\leavestable\"><u>STATUS</u></th><th class=\leavestable\"><u>REMARKS</u></th><th class=\leavestable\"><u>REASON</u></th></tr>";
    while($row=mysqli_fetch_assoc($result))
    {
       echo "<tr>";
-      echo "<td> " . $row["date"]. "</td><td>" . $row["type"]. "</td><td>" . $row["status"]. "</td><td>" . $row["remarks"]. "</td><td>" . $row["reason"]. "</td><td>";
+      echo "<td class=\leavestable\"> " . $row["date"]. "</td><td class=\leavestable\">" . $row["type"]. "</td><td class=\leavestable\">" . $row["status"]. "</td><td class=\leavestable\">" . $row["remarks"]. "</td><td class=\leavestable\">" . $row["reason"]. "</td><td>";
       if($row["status"]=="waiting for approval")
       {
       ?>
@@ -180,7 +188,7 @@ else
       <input type="hidden" name="canceldate" value="<?php echo $row["date"]; ?>">
       <input type="hidden" name="canceltype" value="<?php echo $row["type"]; ?>">
       <input type="hidden" name="cancelreason" value="<?php echo $row["reason"]; ?>">
-      <button type="submit" name="Cancellation" >Cancel</button>
+      <button type="submit" name="Cancellation" class="formsubmit">Cancel</button>
        </form>
       <?php          
        }
@@ -230,7 +238,7 @@ else if(isset($_SESSION["adminid"]) )
   $adminid=$_SESSION['adminid']; 
 
   
-  echo "<form method=\"post\" action=\"?\"><button type=\"submit\" name=\"logout\"> Logout</button><br></form>";
+  echo "<form method=\"post\" action=\"?\"><button style='float: right;' type=\"submit\" name=\"logout\" class=\"adminnav\"> Logout</button><br></form>";
 
 if((isset($_POST['Approve']))||(isset($_POST['Disapprove'])))
   {
@@ -280,7 +288,7 @@ if(isset($_POST["change"]))
     <tr><td>Type: </td><td><?php echo $changetype ?></td></tr>
     <tr><td>Reason: </td><td><?php echo $changereason ?></td></tr>
     <tr><td>Remarks</td><td><input type ="text" required  name="remarks"></td></tr>
-    <tr><td><button type="submit" name="Approve" >Approve</button></td><td><button type="submit" name="Disapprove" >Disapprove</button></td>
+    <tr><td><button type="submit" name="Approve" class="formsubmit" >Approve</button></td><td><button type="submit" name="Disapprove" >Disapprove</button></td>
     </tr></table>
   
        </form>
@@ -294,29 +302,29 @@ if(isset($_POST["change"]))
   ?>
   <div id="pop" class="box" hidden >
   <div>
-      <button class="close" onclick="closepop()">X</button>
+      <button class="close" onclick="closepop()">X</button><br><br>
       <form action="?" method="post">     
-       DATE  <input type="date" name="date" ><br>
-       User_ID  <input type="text" name="userID" ><br>
-       <c><button type="submit" name="apply">Apply</button></c>
+       DATE  <input type="date" name="date" ><br><br>
+       User_ID  <input type="text" name="userID" ><br><br>
+       <c><button type="submit" class="formsubmit" name="apply">Apply</button></c>
        </form>
    </div>
   </div>
-
-    <br><button onclick="openpop()"> Filter </button> 
+<table><tr><td>
+    <br><button onclick="openpop()" class="formsubmit"> Filter </button> </td></tr></table>
     </center> <table>
    <form action="" method="POST">
    <td>  STATUS:   </td>
-  <tr><td> <button type="submit" name="all_leaves" >All leaves</button></td></tr>
-  <tr><td><button type="submit" name="approved" >Approved</button></td></tr>
-  <tr><td><button type="submit" name="disapproved" >Disapproved</button></td></tr>
-  <tr> <td> <button type="submit" name="waiting" >Waiting</button></td></tr>                    
+  <tr><td> <button class="formsubmit" type="submit" name="all_leaves" >All leaves</button></td></tr>
+  <tr><td><button class="formsubmit" type="submit" name="approved" >Approved</button></td></tr>
+  <tr><td><button class="formsubmit" type="submit" name="disapproved" >Disapproved</button></td></tr>
+  <tr> <td> <button class="formsubmit" type="submit" name="waiting" >Waiting</button></td></tr>                    
   </form>
   </table><center>
-  <table>
+  
       
 <?php
-$result=mysqli_query($dbconn,"SELECT * FROM leaves ");
+$result=mysqli_query($dbconn,"SELECT * FROM leaves");
 if(isset ($_SESSION["status"]))
 {
   $status=$_SESSION["status"];
@@ -365,37 +373,44 @@ else if(empty($userID)&&!empty($status)&&empty($date))
   $result=mysqli_query($dbconn,"SELECT * FROM leaves WHERE status='".$status."'");
 else if(empty($userID)&&empty($status)&&!empty($date))
   $result=mysqli_query($dbconn,"SELECT * FROM leaves WHERE date='".$date."'");
-
-echo "<br><br><center><table><tr><td><u>DATE</u></td><td><u>USER ID</u></td><td><u>TYPE</u></td><td><u>STATUS</u></td><td><u>REMARKS</u></td><td><u>REASON</u></td></tr>";
-
+?>
+<br><br><center><table><tr><th><u>DATE</u></th><th><u>USER ID</u></th><th><u>TYPE</u></th><th><u>STATUS</u></th><th><u>REMARKS</u></th><th><u>REASON</u></th></tr>
+<?php
 while($row=mysqli_fetch_assoc($result))
 {
 echo "<tr>";
-echo "<td> " . $row["date"]. "</td><td>" . $row["user_ID"]. "</td><td>" . $row["type"]. "</td><td>" . $row["status"]. "</td><td>" . $row["remarks"]. "</td><td>" . $row["reason"]. "</td><td>";
+echo "<td>" . $row["date"]. "</td><td>" . $row["user_ID"]. "</td><td>" . $row["type"]. "</td><td>" . $row["status"]. "</td><td>" . $row["remarks"]. "</td><td>" . $row["reason"]. "</td>";
 if($row["status"]=="waiting for approval")
 {?>
+<td>
   <form method="POST" action="?">
           <input type="hidden" name="date" value="<?php echo $row["date"]; ?>">
           <input type="hidden" name="user_ID" value="<?php echo $row["user_ID"]; ?>">
           <input type="hidden" name="type" value="<?php echo $row["type"]; ?>">
           <input type="hidden" name="reason" value="<?php echo $row["reason"]; ?>">
           <input type="hidden" name="remarks" value="<?php echo $row["remarks"]; ?>">
-          <button type="submit" onclick="openapprove()" name="change" > Change </button>          
+          <button type="submit"class="formsubmit" onclick="openapprove()" name="change" > Change </button>          
       </form>
-      <?php  echo "</td></tr>";
-}         
+      </td>
+      <?php  
 }
+
+  echo "</tr>";     
+}
+echo "</table>";
 }
 else{
 ?>
     
 <form method="post" action="?">
-<button type="submit" name="adminpop">adminlogin</button>
+<button type="submit" class="navigation" name="adminpop">adminlogin</button>
 <!-- </form>
 <form method="post" action="?"> -->
-<button type="submit" name="userpop">userlogin</button>
-</form>
+<button type="submit" class="navigation" name="userpop">userlogin</button>
+</form><center>
+<h2 > Welcome to Leave Management</h2></center>
 <?php } 
+
 
 if(isset($_POST['adminpop']))
 {
@@ -403,9 +418,11 @@ if(isset($_POST['adminpop']))
 <form method="post" action="?">
   <br>
   <br>
-AdminID <input type="text" name="adminid" required></input><br>
-Password <input type="password" name="adminpass" required></input><br>
-<button type="submit" name="adminlogin">Login</button>
+AdminID <input type="text" name="adminid" required></input><br><br>
+Password <input type="password" name="adminpass" required></input><br><br>
+<table><tr><td>
+<button type="submit" class="formsubmit" name="adminlogin">Login</button>
+</td></tr></table>
 </form>
 
 <?php } ?>
@@ -419,9 +436,12 @@ if(isset($_POST['userpop']))
 <form method="post" action="?">
 <br>
   <br>
-username <input required type="text" name="username"></input><br>
-Password <input required type="password" name="userpass"></input><br>
-<button type="submit" name="userlogin">Login</button>
+  Username<input required type="text" name="username"></input><br><br>
+Password <input required type="password" name="userpass"></input><br><br>
+<table>
+  <tr>
+    <td>
+<button type="submit" class="formsubmit" name="userlogin">Login</button></td></tr></table>
 </form>
 </div>
 </div>  
