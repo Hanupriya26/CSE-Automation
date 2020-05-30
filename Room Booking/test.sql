@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 25, 2020 at 04:14 PM
+-- Generation Time: May 29, 2020 at 08:19 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -43,9 +43,21 @@ CREATE TABLE `activebookings` (
 --
 
 INSERT INTO `activebookings` (`dateofbooking`, `dateofevent`, `purpose`, `roomid`, `username`, `starttime`, `endtime`) VALUES
-('2020-05-25', '2020-05-26', 'class', '5', 'shravya', '09:00:00', '09:30:00'),
-('2020-05-25', '2020-05-26', 'maths', '1', 'shravya', '10:00:00', '11:30:00'),
-('2020-05-25', '2020-05-27', 'koj', '1', 'Jagruthi', '08:30:00', '11:30:00');
+('2020-05-29', '2020-05-31', 'program', '5', 'shravya', '09:30:00', '12:30:00'),
+('2020-05-29', '2020-05-30', 'maths class', '9', 'shravya', '08:30:00', '10:00:00'),
+('2020-05-29', '2020-06-01', 'physics tutorial', '1', 'shravya', '11:00:00', '12:00:00'),
+('2020-05-29', '2020-06-02', 'construction work', '3', 'shravya', '09:00:00', '11:30:00'),
+('2020-05-29', '2020-05-30', 'project discussion', '2', 'Jagruthi', '09:30:00', '10:30:00'),
+('2020-05-29', '2020-06-01', 'AI workshop', '8', 'Jagruthi', '09:00:00', '12:00:00'),
+('2020-05-29', '2020-06-02', 'yoga session', '1', 'Jagruthi', '17:00:00', '18:00:00'),
+('2020-05-29', '2020-05-31', 'talk on stress management', '2', 'sneha', '10:00:00', '10:30:00'),
+('2020-05-29', '2020-06-02', 'CS208 class', '8', 'sneha', '11:00:00', '13:00:00'),
+('2020-05-29', '2020-05-30', 'ma204 extra class', '4', 'pulakitha', '10:00:00', '11:00:00'),
+('2020-05-29', '2020-06-01', 'talk on personality development', '3', 'pulakitha', '09:00:00', '09:30:00'),
+('2020-05-29', '2020-06-02', 'dbms project submission', '1', 'pulakitha', '09:00:00', '11:30:00'),
+('2020-05-29', '2020-05-30', 'paper distribution', '3', 'hanupriya', '12:00:00', '13:30:00'),
+('2020-05-29', '2020-06-02', 'CP contest', '6', 'hanupriya', '16:30:00', '17:30:00'),
+('2020-05-29', '2020-06-01', 'club interview', '4', 'hanupriya', '16:30:00', '17:00:00');
 
 -- --------------------------------------------------------
 
@@ -82,19 +94,6 @@ CREATE TABLE `expiredbookings` (
   `dateofcancellation` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `expiredbookings`
---
-
-INSERT INTO `expiredbookings` (`dateofbooking`, `dateofevent`, `purpose`, `roomid`, `username`, `starttime`, `endtime`, `dateofcancellation`) VALUES
-('2020-02-24', '2020-05-14', 'class', '1', 'xyz', '09:00:00', '10:00:00', NULL),
-('2020-01-21', '2020-05-14', 'class', '1', 'abc', '13:00:00', '15:30:00', NULL),
-('2020-02-10', '2020-05-14', 'jdbvb', '3', 'jagruthi', '08:00:00', '09:30:00', '2020-05-12'),
-('2020-05-25', '2020-05-26', 'bb', '5', 'shravya', '09:30:00', '10:00:00', '2020-05-25'),
-('2020-05-23', '2020-05-24', 'cgcgj', '4', 'shravya', '10:30:00', '12:00:00', NULL),
-('2020-02-03', '2020-03-04', 'iok', '3', 'shravya', '08:30:00', '09:30:00', NULL),
-('2020-03-04', '2020-03-05', 'ok', '3', 'shravya', '09:00:00', '09:30:00', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -118,9 +117,10 @@ INSERT INTO `rooms` (`roomid`, `roomno`, `building`, `capacity`) VALUES
 (3, '202', '1B', 180),
 (4, '203', '1E', 70),
 (5, '104', '1E', 140),
-(7, '405', '1E', NULL),
-(8, '302', '1B', NULL),
-(9, '603', '1B', NULL);
+(6, '302', '1B', 40),
+(7, '105', '1B', 100),
+(8, '502', '1E', 70),
+(9, '401', '1E', 40);
 
 -- --------------------------------------------------------
 
@@ -139,12 +139,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`username`, `password`, `email`) VALUES
-('shravya', 'potti', 'shravya16097@gmail.com'),
-('jagruthi', 'akka', 'cse180001021@gmail.com'),
-('sneha', 'sneha', 'cse180001013@iiti.ac.in'),
-('pulakitha', 'pullu', 'cse180001041@iiti.ac.in'),
-('hanupriya', 'hanu', 'cse180001016@iiti.ac.in'),
-('daddy', 'mummy', 'sarayu@gmail.com');
+('shravya', 'ramasahayam', 'cse180001052@iiti.ac.in'),
+('jagruthi', 'patibandla', 'cse180001021@iiti.ac.in'),
+('sneha', 'shree', 'cse180001013@iiti.ac.in'),
+('pulakitha', 'rapolu', 'cse180001041@iiti.ac.in'),
+('hanupriya', 'priya', 'cse180001016@iiti.ac.in'),
+('', '', '');
 
 --
 -- Indexes for dumped tables
@@ -165,7 +165,7 @@ ALTER TABLE `rooms`
 -- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
-  MODIFY `roomid` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `roomid` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 DELIMITER $$
 --

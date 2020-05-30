@@ -4,15 +4,10 @@
 <meta http-equiv="content-type" content="text/html;charset=utf-8">
   <link rel="stylesheet" href="styles.css" >
 <title>Room Booking</title></head>
+<?php session_start() ?>
 <script>
   function userpop() {
   document.getElementById("userbox").style.display = "block";
-  closeadmin();
-  closepop();
-  closeadduser();
-  closeaddroom(); 
-  closemybooking();
-  closenotbooked();
 }
 function closeuser() {
     document.getElementById("userbox").style.display = "none";
@@ -26,49 +21,25 @@ function submitform()
 }
 function adminpop() {
   document.getElementById("adminbox").style.display = "block";
-  closeuser();
-  closepop();
-  closeadduser();
-  closeaddroom(); 
-  closemybooking();
-  closenotbooked();
 }
 function closeadmin() {
     document.getElementById("adminbox").style.display = "none";
 }
 function adduser() {
   document.getElementById("adduser").style.display = "block";
-  closeuser();
-  closeadmin();
-  closepop();
-  closeaddroom(); 
-  closemybooking();
-  closenotbooked();
 }
 function closeadduser() {
     document.getElementById("adduser").style.display = "none";
 }
 function addroom() {
   document.getElementById("addroom").style.display = "block";
-  closeuser();
-  closeadmin();
-  closepop();
-  closeadduser();
-  closemybooking();
-  closenotbooked();
 }
 function closeaddroom() {
   document.getElementById("addroom").style.display = "none";
 
 }
 function mybookingpop() {
-  document.getElementById("mybooking").style.display = "block";
-  closeuser();
-  closeadmin();
-  closepop();
-  closeadduser();
-  closeaddroom(); 
-  closenotbooked();  
+  document.getElementById("mybooking").style.display = "block"; 
 }
 function closemybooking() {
   document.getElementById("mybooking").style.display = "none";
@@ -76,26 +47,32 @@ function closemybooking() {
 }
 function notbooked() {
   document.getElementById("notbooked").style.display = "block";
-  closeuser();
-  closeadmin();
-  closepop();
-  closeadduser();
-  closeaddroom(); 
-  closemybooking();
 }
 function closenotbooked() {
   document.getElementById("notbooked").style.display = "none";
-
 }
+function closedeluser() {
+    document.getElementById("deluser").style.display = "none";
+}
+
+function deluser() {
+  document.getElementById("deluser").style.display = "block";
+}
+
 </script>
 <body>
+
+<img src="title.png" width=100%>
 <div id="adminbox" class="popbox" hidden>
   <div>
 <button class="close" onclick="closeadmin()">X</button><br>
         <form action="?" method="post">
+          <br><br>
           AdminID<input type="text" name="adminname" required></input><br>
-          Password <input type="password" name="adminpass" required></input><br>
-          <button type="submit" name="adminlogin">Login</button>
+          <br>
+          Password <input type="password" name="adminpass" required></input><br><br>
+          <center>
+          <button type="submit" class="formsubmit" name="adminlogin">Login</button></center>
         </form>
 </div>
 </div>
@@ -106,7 +83,7 @@ function closenotbooked() {
           Room number <input type="text" name="addroomno" required></input><br>
           Building <input type="text" name="addbuilding" required></input><br>
           Capacity <input type="text" name="addcapacity" required></input><br>
-          <button type="submit" name="addroom">Add Room</button>
+          <center><button type="submit" class="formsubmit" name="addroom">Add Room</button></center>
         </form>
 </div>
 </div>
@@ -117,7 +94,16 @@ function closenotbooked() {
           username<input type="text" name="addusername" required></input><br>
           Password <input type="password" name="addpass" required></input><br>
           Email <input type="email" name="addemail" required></input><br>
-          <button type="submit" name="adduser">Add User</button>
+<center><button type="submit"class="formsubmit" name="adduser">Add User</button></center>
+        </form>
+</div>
+</div>
+<div id="deluser" class="popbox" hidden>
+  <div>
+<button class="close" onclick="closedeluser()">X</button><br>
+        <form action="?" method="post">
+          Username <input type="text" name="delusername" required><br>
+         <center> <button type="submit" class="formsubmit" name="deluserform">Delete User</button></center>
         </form>
 </div>
 </div>
@@ -126,9 +112,9 @@ function closenotbooked() {
           <button class="close" onclick="closeuser()">X</button><br>
           <p>Login to continue</p><br>
           <form method="post" action="?">
-            Username <input type="text" name="username" required></input><br>
-            Password <input type="password" name="password" required></input><br>
-            <button type="submit" name="userlogin">Login</button>
+            Username <input type="text" name="username" required></input><br><br>
+            Password <input type="password" name="password" required></input><br><br>
+            <center><button type="submit" class="formsubmit"name="userlogin">Login</button></center>
           </form>
       </div>
       </div>
@@ -145,7 +131,7 @@ $dbpassword="";
 $dbname="test";
 $dbconn =mysqli_connect($host,$dbusername,$dbpassword,$dbname);
 $sql=mysqli_query($dbconn,"SELECT distinct building from rooms"); 
-session_start();
+
 if(isset($_POST["logout"]))
 {
   session_destroy();
@@ -176,9 +162,31 @@ if(isset($_POST['addroom']))
   $addroomno=$_POST['addroomno'];
   $addbuilding=$_POST['addbuilding'];
   $addcapacity=$_POST['addcapacity'];
-  $sql11=mysqli_query($dbconn,"insert into rooms(roomno,building) values('".$addroomno."','".$addbuilding."')");  
+  $sql11=mysqli_query($dbconn,"insert into rooms(roomno,building,capacity) values('".$addroomno."','".$addbuilding."','".$addcapacity."')");  
   echo "<script>alert(\"new Room added successfully\")</script>"; 
 }
+
+if(isset($_POST['deluserform']))
+{
+    $delusername=$_POST['delusername'];
+    
+    $sqlpq=mysqli_query($dbconn,"SELECT *from users where username='".$delusername."'");
+    $temp=0;
+    while($rowpq=mysqli_fetch_assoc($sqlpq))
+    {
+      $temp=1;
+      $sqlqp="DELETE from users where username='".$delusername."'";
+      $resultqp=mysqli_query($dbconn,$sqlqp);
+      echo "<script>alert(\"Deleted user successfully\")</script>";
+      // echo "<script> window.location=\"index.php\"</script>";
+    }
+if($temp==0)
+    {
+      echo "<script>alert(\"User doesn't exist\")</script>";
+      // echo "<script> window.location=\"index.php\"</script>";
+    }
+    
+} 
 
 if(isset($_POST['adminlogin']))
 {
@@ -192,13 +200,17 @@ if(isset($_POST['adminlogin']))
     {
       $_SESSION['adminname']=$adminname;
       echo "<script>alert(\"Logged in successfully\")</script>";?>
-      <div >
-      <form action="?" method="post"> 
-      <button type="submit" name="logout">Logout</button><br>
-      </form>
-    </div>
-    <br><button onclick="addroom()" name="addroom">Add a Room</button>
-    <button onclick="adduser()" name="adduser">Add a User</button><br><br>
+      
+    <br>
+        
+  <button onclick="addroom()" class="amdinnavigation" name="addroom">Add a Room</button>
+    <button onclick="adduser()" class="amdinnavigation" name="adduser">Add a User</button> 
+    <button onclick="deluser()" class="amdinnavigation"  name="deluser">Delete User</button>
+    <form action="?" method="post"> 
+      <button type="submit" class="amdinnavigation" name="logout" style = "float:right;">Logout</button>
+      </form><br>
+    
+    <h2> Logged in as Admin</h2><br>
       <?php
     }
     else
@@ -218,13 +230,17 @@ else
 {
   if(isset($_SESSION["adminname"]))
   {    $adminname=$_SESSION["adminname"]; ?>
-  <div >
+
+  <br>    
+    
+  <button onclick="addroom()" class="amdinnavigation" name="addroom">Add a Room</button>
+    <button onclick="adduser()" class="amdinnavigation" name="adduser">Add a User</button> 
+    <button onclick="deluser()" class="amdinnavigation"  name="deluser">Delete User</button>
     <form action="?" method="post"> 
-    <button type="submit" name="logout">Logout</button><br>
-    </form>
-  </div>
-  <br><button onclick="addroom()" name="addroom">Add a Room</button>
-    <button onclick="adduser()" name="adduser">Add a User</button><br>
+      <button type="submit" class="amdinnavigation" name="logout" style = "float:right;">Logout</button>
+      </form><br>
+    <h2> Logged in as Admin</h2>
+    <br><br>
     <?php }
   else{    $adminname="empty"; $adminpass="empty";  }
 }
@@ -242,9 +258,13 @@ if(isset($_POST['userlogin']))
     {
       $_SESSION['username']=$username;
       echo "<script>alert(\"Logged in successfully\")</script>";?>
+      
       <div >
       <form action="?" method="post"> 
-<button type="submit" name="logout">Logout</button><br>
+<button type="submit" class="usernavigation" name="logout">Logout</button><br>
+
+<h2> Welcome <?php echo $username ?> </h2>
+<br>
 </form>
     </div>
       <?php
@@ -254,8 +274,11 @@ if(isset($_POST['userlogin']))
       $username="empty";
       $password="empty";
       echo "<script>alert(\"Enter valid credentials\")</script>";?>
-      <button onclick="adminpop()">Admin</button>
-      <button onclick="userpop()">User Login</button><br><br>
+      <div class="pane">
+      <button onclick="adminpop()" class="navigation">Admin Login</button>
+    <button onclick="userpop()" class="navigation">User Login</button>
+    </div>
+    <br><br>
     <?php }
   }
   if($dummy==0)
@@ -264,8 +287,11 @@ if(isset($_POST['userlogin']))
       $password="empty";
       echo "<script>alert(\"Enter valid credentials\")</script>";
       ?>
-      <button onclick="adminpop()">Admin</button>
-      <button onclick="userpop()">User Login</button><br><br>
+      <div class="pane">
+      <button onclick="adminpop()" class="navigation">Admin Login</button>
+    <button onclick="userpop()" class="navigation">User Login</button>
+    </div>
+    <br><br>
     <?php
   }
 }
@@ -275,14 +301,19 @@ else if(!isset($_SESSION["adminname"]))
   {    $username=$_SESSION["username"]; ?>
   <div >
     <form action="?" method="post"> 
-    <button type="submit" name="logout">Logout</button><br>
+    <button type="submit" class="usernavigation" name="logout">Logout</button><br>
     </form>
+    
+  <h2> Welcome <?php echo $username ?> </h2><br>
   </div>
     <?php }
 else{    $username="empty"; $password="empty"; 
     ?>
-    <button onclick="adminpop()">Admin</button>
-    <button onclick="userpop()">User Login</button><br><br>
+    <div class="pane">
+      <button onclick="adminpop()" class="navigation">Admin Login</button>
+    <button onclick="userpop()" class="navigation">User Login</button>
+    </div>
+    <br><br>
   <?php }
 }
 else
@@ -351,7 +382,7 @@ if(isset($_POST['book']))
           ?>
           </select><br>
           purpose <input name="purpose" required></input><br>
-         <br><button name="room" type="submit">Book</button>
+         <br><button name="room" class="formsubmit" type="submit">Book</button>
       </form>
     </div>
     </div>
@@ -483,7 +514,7 @@ if(isset($_POST['details']))
 } 
 
 
-echo "<table>";
+echo "<div class=\"content\"><table>";
 while($row=mysqli_fetch_assoc($sql))
 {
     echo "<form method=\"post\" action=\"?\">";
@@ -516,8 +547,11 @@ echo "</table><br><br>";?>
   $t="8:00";
   $halt="20:00";
  if($date>=date("Y-m-d")) $result1=mysqli_query($dbconn,"SELECT*FROM activebookings where dateofevent= '".$date."' and roomid='".$row["roomid"]."' order by starttime ASC "); 
- else $result1=mysqli_query($dbconn,"SELECT*FROM expiredbookings where dateofevent= '".$date."' and roomid='".$row["roomid"]."' and dateofcancellation is NULL order by starttime ASC "); 
- while($row1=mysqli_fetch_assoc($result1))
+ else 
+ {
+   $result1=mysqli_query($dbconn,"SELECT*FROM expiredbookings where dateofevent= '".$date."' and roomid='".$row["roomid"]."' and dateofcancellation is NULL order by starttime ASC "); 
+ }
+   while($row1=mysqli_fetch_assoc($result1))
  {
       $starttime=date("G:i",strtotime($row1["starttime"]));
       $endtime=date("G:i",strtotime($row1["endtime"]));
@@ -565,3 +599,6 @@ echo "</table><br><br>";?>
 echo "</table>";
  }
 ?>
+</div>
+</body>
+</html>
